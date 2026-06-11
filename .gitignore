@@ -1,0 +1,40 @@
+# --- Secrets & credentials (never commit these) ---
+.env
+*.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# --- Cache & runtime output ---
+.cache/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# --- Reports (contain enriched IOC data, may be sensitive) ---
+report_*.json
+dashboard_*.html
+
+# --- Virtual environment ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- OS & editor noise ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# --- Logs ---
+*.log
