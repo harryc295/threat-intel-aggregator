@@ -195,7 +195,8 @@ def query_shodan(ip: str) -> dict:
         if svc not in services:
             services.append(svc)
 
-    vulns = list(data.get("vulns", {}).keys())
+    vulns_raw = data.get("vulns") or {}
+    vulns = list(vulns_raw.keys()) if isinstance(vulns_raw, dict) else list(vulns_raw)
 
     result = {
         "source": "shodan",

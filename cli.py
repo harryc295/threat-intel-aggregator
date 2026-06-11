@@ -10,6 +10,7 @@ Usage examples:
 import argparse
 import json
 import logging
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -101,7 +102,11 @@ def main() -> None:
     log.info("JSON report → %s", json_out)
 
     dashboard.generate(json_out, html_out)
-    log.info("Done. Open %s in your browser.", html_out)
+    log.info("Done. Opening %s…", html_out)
+    try:
+        os.startfile(Path(html_out).resolve())
+    except Exception:
+        log.info("Could not auto-open browser. Open manually: %s", Path(html_out).resolve())
 
     # Print a brief console summary
     high = sum(1 for r in records if r.get("risk_score", 0) >= 70)
