@@ -407,12 +407,17 @@ def _compute_risk(enrichments: dict) -> int:
     vt = enrichments.get("virustotal", {})
     if vt and "positives" in vt and "total" in vt and vt["total"]:
         ratio = vt["positives"] / vt["total"]
-        scores.append(int(ratio * 100))
-    if vt and vt.get("reputation") is not None:
+        vt_score = int(min(100, ratio * 130))
+        scores.append(vt_score)
+        # Detection ratio is authoritative for files — skip reputation averaging
+        # when detections clearly indicate malicious (avoids EICAR-style false-low)
+        if vt_score < 70 and vt.get("reputation") is not None:
+            rep = vt["reputation"]
+            normalized = max(0, min(100, 50 - rep))
+            scores.append(normalized)
+    elif vt and vt.get("reputation") is not None:
         rep = vt["reputation"]
-        # VT reputation: negative = bad, positive = good, range roughly -100..100
-        normalized = max(0, min(100, 50 - rep))
-        scores.append(normalized)
+        scores.append(max(0, min(100, 50 - rep)))
 
     abuse = enrichments.get("abuseipdb", {})
     if abuse and "abuse_confidence_score" in abuse:
