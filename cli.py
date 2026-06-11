@@ -110,7 +110,7 @@ def main() -> None:
     print(
         f"\n{'='*50}\n"
         f"  IOCs processed : {total}\n"
-        f"  High risk (≥70): {high}\n"
+        f"  High risk (>=70): {high}\n"
         f"  Medium risk    : {med}\n"
         f"  Low / clean    : {low}\n"
         f"  JSON report    : {json_out}\n"
